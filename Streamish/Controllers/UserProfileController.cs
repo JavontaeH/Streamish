@@ -58,7 +58,7 @@ namespace Streamish.Controllers
             return NoContent();
         }
 
-        [HttpGet("GetByIdWithVideos")]
+        [HttpGet("GetByIdWithVideos/{id}")]
         public IActionResult GetByIdWithVideos(int id)
         {
             var userProfile = _userProfileRepository.GetByIdWithVideos(id);

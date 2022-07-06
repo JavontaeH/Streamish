@@ -100,6 +100,7 @@ namespace Streamish.Repositories
 
                         UserProfile userprofile = null;
                         Video existingVideo = null;
+                        
                         while (reader.Read())
                         {
                             if (userprofile == null)
@@ -114,19 +115,24 @@ namespace Streamish.Repositories
                                     Videos = new List<Video>(),
                                 });
                             }
-                            if (DbUtils.IsNotDbNull(reader, "VideoId") && userprofile.Videos.FindIndex(v => v.Id == DbUtils.GetInt(reader, "VideoId")) == -1)
+                            if (DbUtils.IsNotDbNull(reader, "VideoId"))
                             {
-                                existingVideo = new Video()
+                            var videoId = DbUtils.GetInt(reader, "VideoId");
+                            existingVideo = userprofile.Videos.FirstOrDefault(p => p.Id == videoId);
+                                if (existingVideo == null)
                                 {
-                                    Id = DbUtils.GetInt(reader, "VideoId"),
-                                    Description = DbUtils.GetString(reader, "Description"),
-                                    UserProfileId = id,
-                                    DateCreated = DbUtils.GetDateTime(reader, "VideoDateCreated"),
-                                    Url = DbUtils.GetString(reader, "Url"),
-                                    Title = DbUtils.GetString(reader, "Title"),
-                                    Comments = new List<Comment>(),
+                                    existingVideo = new Video()
+                                    {
+                                        Id = DbUtils.GetInt(reader, "VideoId"),
+                                        Description = DbUtils.GetString(reader, "Description"),
+                                        UserProfileId = id,
+                                        DateCreated = DbUtils.GetDateTime(reader, "VideoDateCreated"),
+                                        Url = DbUtils.GetString(reader, "Url"),
+                                        Title = DbUtils.GetString(reader, "Title"),
+                                        Comments = new List<Comment>(),
 
-                                };
+                                    };
+                                }
                                 userprofile.Videos.Add(existingVideo);
                             }
                             if (DbUtils.IsNotDbNull(reader, "CommentId"))
