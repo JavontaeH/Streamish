@@ -2,10 +2,9 @@ import React from "react";
 import { Card, CardBody } from "reactstrap";
 
 const Video = ({ video }) => {
-  console.log(video);
   return (
     <Card>
-      <p className="text-left px-2">Posted by: {video.userProfile.name}</p>
+      <p className="text-left px-2">Posted by: {video?.userProfile.name}</p>
       <CardBody>
         <iframe
           className="video"
@@ -20,8 +19,8 @@ const Video = ({ video }) => {
           <strong>{video.title}</strong>
         </p>
         <p>{video.description}</p>
-        {video.comments.map((comment) => (
-          <p>{comment.message}</p>
+        {video.comments?.map((comment) => (
+          <p key={"c-" + comment.id}>{comment.message}</p>
         ))}
       </CardBody>
     </Card>
