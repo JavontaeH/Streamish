@@ -1,7 +1,7 @@
-const baseUrl = "/api/video";
+let baseUrl = "/api/video";
 
 export const getAllVideos = () => {
-  return fetch(baseUrl).then((res) => res.json());
+  return fetch((baseUrl += "/GetWithComments")).then((res) => res.json());
 };
 
 export const addVideo = (video) => {
